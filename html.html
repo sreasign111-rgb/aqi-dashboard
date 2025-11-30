@@ -1,0 +1,110 @@
+<script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
+
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  
+
+
+
+  <!-- Animated Smoke Particles -->
+  <div class="fixed inset-0 pointer-events-none z-10">
+    <div class="smoke-particle absolute w-96 h-96" style="left:10%; animation-delay:0s;"></div>
+    <div class="smoke-particle absolute w-80 h-80" style="left:70%; animation-delay:5s;"></div>
+    <div class="smoke-particle absolute w-72 h-72" style="left:40%; animation-delay:10s;"></div>
+  </div>
+
+  <div class="container max-w-7xl mx-auto p-6 relative z-20">
+
+    <!-- Floating Title with Icons -->
+    <div class="text-center my-16">
+      <h1 class="floating-title text-6xl md:text-8xl font-black text-white inline-block">
+        <i class="fas fa-smog text-sky-400 mr-4"></i>
+        India Air Quality Monitor
+        <i class="fas fa-lungs text-red-400 ml-4"></i>
+      </h1>
+      <p class="text-xl md:text-2xl mt-6 font-medium text-sky-200 flex items-center justify-center gap-4">
+        <i class="fas fa-map-marked-alt"></i> Real-Time Pollution Data <i class="fas fa-heartbeat"></i> Health Advisory
+      </p>
+    </div>
+
+    <!-- Description -->
+    <div class="glass rounded-3xl p-10 mb-16 text-center max-w-5xl mx-auto">
+      <p class="text-lg md:text-xl leading-relaxed font-medium text-sky-100">
+        Enter any city to instantly check live AQI, PM2.5 levels, temperature & get personalized health advice.
+      </p>
+    </div>
+
+    <!-- Search Box -->
+    <div class="max-w-3xl mx-auto mb-20">
+      <div class="flex flex-col md:flex-row gap-5 glass p-10 rounded-3xl">
+        <input 
+          type="text" 
+          id="cityInput" 
+          placeholder="Type city name (e.g. Delhi, Mumbai, Bangalore...)" 
+          class="input input-lg flex-1 text-xl rounded-2xl"
+        />
+        <button id="searchBtn" class="btn btn-lg btn-info text-white font-bold px-16 hover:scale-110 transition">
+          <i class="fas fa-search mr-3"></i> Search
+        </button>
+      </div>
+    </div>
+
+    <!-- Result Card -->
+    <div id="result" class="glass rounded-3xl p-12 mb-20 hidden max-w-5xl mx-auto">
+      <div class="text-center">
+        <h2 id="cityName" class="text-5xl md:text-6xl font-black text-white mb-8"></h2>
+        <div class="text-9xl font-black text-white mb-6" id="aqiValue">—</div>
+        <p id="healthAdvice" class="text-3xl font-bold text-amber-300 mb-10"></p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-12">
+        <div class="text-center bg-white/10 rounded-3xl p-10">
+          <i class="fas fa-wind text-5xl text-sky-300 mb-4"></i>
+          <p class="text-sky-200 uppercase text-sm tracking-widest">PM2.5 Level</p>
+          <p class="text-6xl font-black text-white mt-4"><span id="pm25">—</span> µg/m³</p>
+        </div>
+        <div class="text-center bg-white/10 rounded-3xl p-10">
+          <i class="fas fa-thermometer-half text-5xl text-orange-300 mb-4"></i>
+          <p class="text-sky-200 uppercase text-sm tracking-widest">Temperature</p>
+          <p class="text-6xl font-black text-white mt-4"><span id="temp">—</span>°C</p>
+        </div>
+      </div>
+
+      <div class="bg-white/10 rounded-3xl p-10">
+        <h3 class="text-2xl font-bold text-white mb-6 text-center">
+          <i class="fas fa-notes-medical mr-3"></i>Health Recommendations
+        </h3>
+        <ul id="suggestions" class="space-y-4 text-lg text-sky-100"></ul>
+      </div>
+    </div>
+
+    <!-- Live Map -->
+    <div class="glass rounded-3xl p-10">
+      <h2 class="text-4xl font-bold text-center mb-10 text-white">
+        <i class="fas fa-globe-asia mr-4"></i>Live Air Quality Map
+      </h2>
+      <div id="map"></div>
+    </div>
+
+    <!-- Legend -->
+    <div class="glass rounded-3xl p-10 mt-16 text-center">
+      <h3 class="text-3xl font-bold mb-10 text-white">AQI Categories</h3>
+      <div class="grid grid-cols-2 md:grid-cols-6 gap-8">
+        <div><div class="w-20 h-20 rounded-full bg-green-500 mx-auto"></div><p class="mt-4 text-sky-100">Good</p></div>
+        <div><div class="w-20 h-20 rounded-full bg-yellow-400 mx-auto"></div><p class="mt-4 text-sky-100">Moderate</p></div>
+        <div><div class="w-20 h-20 rounded-full bg-orange-500 mx-auto"></div><p class="mt-4 text-sky-100">Unhealthy</p></div>
+        <div><div class="w-20 h-20 rounded-full bg-red-600 mx-auto"></div><p class="mt-4 text-sky-100">Very Unhealthy</p></div>
+        <div><div class="w-20 h-20 rounded-full bg-purple-700 mx-auto"></div><p class="mt-4 text-sky-100">Hazardous</p></div>
+        <div><div class="w-20 h-20 rounded-full bg-gray-900 mx-auto"></div><p class="mt-4 text-sky-100">Extreme</p></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
